@@ -1,8 +1,71 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "ReFound - Campus Lost & Found";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <h1 class="hero-title">ReFound</h1>
+    <p class="hero-subtitle">
+        The centralized hub for campus lost and found. Fast, secure, and university-affiliated.
+    </p>
+
+    <div class="action-buttons">
+        <a href="@Url.Action("ReportLost", "Item")" class="btn-primary-custom">
+            <i class="bi bi-arrow-repeat"></i>
+            Report Lost Item
+        </a>
+        <a href="@Url.Action("ReportFound", "Item")" class="btn-secondary-custom">
+            <i class="bi bi-inbox"></i>
+            Report Found Item
+        </a>
+    </div>
+
+    <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Quick search for your missing items..." id="searchInput">
+    </div>
 </div>
+
+<div class="features-section">
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="bi bi-diagram-3"></i>
+        </div>
+        <h3 class="feature-title">Centralized</h3>
+        <p class="feature-description">
+            One unified platform for every campus department and building.
+        </p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+        </div>
+        <h3 class="feature-title">Secure</h3>
+        <p class="feature-description">
+            Protected by university SSO and verified staff authentication.
+        </p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="bi bi-lightning"></i>
+        </div>
+        <h3 class="feature-title">Instant</h3>
+        <p class="feature-description">
+            Get real-time notifications the moment your item is found.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value;
+                window.location.href = '@Url.Action("Search", "Item")?query=' + encodeURIComponent(searchTerm);
+            }
+        });
+    </script>
+}
