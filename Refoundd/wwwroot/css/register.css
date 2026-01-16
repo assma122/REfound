@@ -1,0 +1,336 @@
+﻿/* ==========================================
+   ReFound - Register Page Styles
+   ========================================== */
+
+/* ==================== Global Styles ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lexend', sans-serif;
+    background-color: #0a0a0c;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+::selection {
+    background-color: rgba(59, 130, 246, 0.3);
+}
+
+/* ==================== Header ==================== */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 16px 40px;
+    background-color: rgba(22, 22, 26, 0.5);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-text {
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.nav-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+    .nav-link:hover {
+        color: white;
+    }
+
+.header-btn {
+    min-width: 100px;
+    padding: 10px 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+    .header-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+/* ==================== Main Content ==================== */
+.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 16px;
+}
+
+/* Registration Card */
+.register-card {
+    width: 100%;
+    max-width: 480px;
+    background-color: #16161a;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid #2d2d33;
+    padding: 40px;
+}
+
+.register-header {
+    margin-bottom: 40px;
+}
+
+.register-title {
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.register-subtitle {
+    color: #94a3b8;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Form Styles */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    color: #e2e8f0;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 4px;
+    margin-bottom: 8px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    transition: color 0.3s;
+}
+
+.input-wrapper:focus-within .input-icon {
+    color: #3b82f6;
+}
+
+.form-input {
+    width: 100%;
+    height: 56px;
+    border-radius: 12px;
+    color: white;
+    background-color: rgba(10, 10, 12, 0.5);
+    border: 1px solid #2d2d33;
+    padding-left: 48px;
+    padding-right: 16px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+    .form-input::placeholder {
+        color: #64748b;
+    }
+
+    .form-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 15px -3px rgba(59, 130, 246, 0.4);
+    }
+
+/* Validation Styles */
+.validation-summary {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+    .validation-summary ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+.validation-error {
+    color: #fca5a5;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+.input-validation-error {
+    border-color: #ef4444 !important;
+}
+
+/* Grid Layout for Password Fields */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 100%;
+    height: 56px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+    margin-top: 16px;
+}
+
+    .btn-submit:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-submit:active {
+        transform: scale(0.99);
+    }
+
+    .btn-submit:disabled {
+        background-color: #334155;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+/* Footer Text */
+.footer-text {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.footer-link {
+    color: #3b82f6;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 4px;
+    transition: color 0.3s;
+}
+
+    .footer-link:hover {
+        color: #60a5fa;
+    }
+
+/* ==================== Page Footer ==================== */
+.page-footer {
+    padding: 32px;
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 24px;
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+
+    .register-card {
+        padding: 32px 24px;
+    }
+
+    .register-title {
+        font-size: 28px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-card {
+        padding: 24px 20px;
+    }
+
+    .register-title {
+        font-size: 24px;
+    }
+
+    .register-subtitle {
+        font-size: 14px;
+    }
+
+    .form-input {
+        height: 52px;
+        font-size: 15px;
+    }
+
+    .btn-submit {
+        height: 52px;
+        font-size: 15px;
+    }
+}
