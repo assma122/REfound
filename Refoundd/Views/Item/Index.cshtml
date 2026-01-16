@@ -1,0 +1,33 @@
+﻿@model List<Refoundd.Models.Item>
+
+<h2>Lost & Found Items</h2>
+
+<!-- Search form -->
+<form asp-action="Index" method="get">
+    <input type="text" name="search" placeholder="Search by item name..." />
+    <button type="submit">Search</button>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.Item_Name</td>
+                <td>@i.Description</td>
+                <td>@i.Location</td>
+                <td>@i.Status</td>
+                <td>@i.Date.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
