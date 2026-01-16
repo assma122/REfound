@@ -1,4 +1,4 @@
-﻿
+﻿// RefoundContext.cs
 using Microsoft.EntityFrameworkCore;
 using Refoundd.Models;
 using System;
@@ -27,7 +27,8 @@ namespace Refoundd.Models
                     First_Name = "Ali",
                     Last_Name = "Ahmed",
                     Email = "ali@example.com",
-                    Password = "1234",
+                    Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                    // pass: 1234
                     Flag = 0
                 },
                 new User
@@ -37,7 +38,8 @@ namespace Refoundd.Models
                     First_Name = "Sara",
                     Last_Name = "Khan",
                     Email = "sara@example.com",
-                    Password = "5678",
+                    Password = "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176",
+                    // pass: 5678
                     Flag = 0
                 }
             );

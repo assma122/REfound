@@ -1,0 +1,135 @@
+﻿@model Refoundd.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "ReFound - Registration";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h2 class="logo-text">ReFound</h2>
+        </div>
+
+        <div class="header-nav">
+            <div class="nav-links">
+                <a href="@Url.Action("Index", "Home")" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            <a href="@Url.Action("Login", "Account")" class="header-btn">Login</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Registration Card -->
+        <div class="register-card">
+            <div class="register-header">
+                <h1 class="register-title">Create Account</h1>
+                <p class="register-subtitle">Join the centralized network for university Lost & Found.</p>
+            </div>
+
+            <form asp-controller="Account" asp-action="Register" method="post" class="form">
+                @Html.AntiForgeryToken()
+
+                <!-- Validation Summary -->
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label asp-for="UserName" class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">person</span>
+                        <input asp-for="UserName" type="text" class="form-input" placeholder="john_doe" />
+                    </div>
+                    <span asp-validation-for="UserName" class="validation-error"></span>
+                </div>
+
+                <!-- First Name & Last Name Grid -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="form-label">First Name</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">badge</span>
+                            <input asp-for="FirstName" type="text" class="form-input" placeholder="John" />
+                        </div>
+                        <span asp-validation-for="FirstName" class="validation-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="form-label">Last Name</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">badge</span>
+                            <input asp-for="LastName" type="text" class="form-input" placeholder="Doe" />
+                        </div>
+                        <span asp-validation-for="LastName" class="validation-error"></span>
+                    </div>
+                </div>
+
+                <!-- University Email -->
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">University Email</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">mail</span>
+                        <input asp-for="Email" type="email" class="form-input" placeholder="student@university.edu" />
+                    </div>
+                    <span asp-validation-for="Email" class="validation-error"></span>
+                </div>
+
+                <!-- Password Fields Grid -->
+                <div class="form-grid">
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">lock</span>
+                            <input asp-for="Password" type="password" class="form-input" placeholder="••••••••" />
+                        </div>
+                        <span asp-validation-for="Password" class="validation-error"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined input-icon">lock_reset</span>
+                            <input asp-for="ConfirmPassword" type="password" class="form-input" placeholder="••••••••" />
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="validation-error"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+
+            <!-- Footer -->
+            <div class="footer-text">
+                Already have an account?
+                <a href="@Url.Action("Login", "Account")" class="footer-link">Sign in</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="page-footer">
+        <p>© 2024 ReFound – The University Lost & Found Hub</p>
+    </footer>
+
+    <!-- Validation Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
