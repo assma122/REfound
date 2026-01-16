@@ -28,5 +28,23 @@ namespace Refoundd.Controllers
 
             return View(items.ToList());
         }
+
+        /* ERROR (Title)
+        public IActionResult Search(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            
+            var results = _context.Items
+                .Where(i => i.Title.Contains(query) ||
+                            i.Description.Contains(query))
+                .ToList();
+
+            return View(results);
     }
+        */
+}
 }
