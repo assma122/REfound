@@ -17,10 +17,10 @@ body {
     display: flex;
     flex-direction: column;
 }
-
+/*
 ::selection {
     background-color: rgba(59, 130, 246, 0.3);
-}
+}*/
 
 /* ==================== Header ==================== */
 .header {

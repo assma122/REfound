@@ -11,8 +11,8 @@
 
 body {
     font-family: 'Lexend', sans-serif;
-    background-color: #0f172a;
-    color: #f1f5f9;
+    background-color: #0a0a0c;
+    color: white;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@ body {
     justify-content: space-between;
     border-bottom: 1px solid #1e293b;
     padding: 16px 40px;
-    background-color: rgba(15, 23, 42, 0.8);
+    background-color: rgba(22, 22, 26, 0.5);
     backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
@@ -45,11 +45,11 @@ body {
 }
 
 .nav-link {
-    color: #cbd5e1;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.3s;
+    color: #cbd5e1;
 }
 
     .nav-link:hover {
@@ -67,37 +67,14 @@ body {
     overflow: hidden;
 }
 
-/* Background Gradients */
-.gradient-top {
-    position: absolute;
-    top: -20%;
-    left: -10%;
-    width: 60%;
-    height: 60%;
-    background-color: rgba(59, 130, 246, 0.1);
-    border-radius: 50%;
-    filter: blur(120px);
-}
-
-.gradient-bottom {
-    position: absolute;
-    bottom: -20%;
-    right: -10%;
-    width: 60%;
-    height: 60%;
-    background-color: rgba(99, 102, 241, 0.1);
-    border-radius: 50%;
-    filter: blur(120px);
-}
-
 /* Login Card */
 .login-card {
     width: 100%;
     max-width: 440px;
-    background-color: #1e293b;
+    background-color: #16161a;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     padding: 40px;
     border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(71, 85, 105, 0.5);
     position: relative;
     z-index: 10;
@@ -161,8 +138,8 @@ body {
     height: 48px;
     border-radius: 12px;
     color: white;
-    border: 1px solid #334155;
-    background-color: rgba(51, 65, 85, 0.5);
+    background-color: rgba(10, 10, 12, 0.5);
+    border: 1px solid #2d2d33;
     padding-left: 48px;
     padding-right: 16px;
     font-size: 14px;
