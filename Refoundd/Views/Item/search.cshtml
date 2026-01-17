@@ -1,0 +1,132 @@
+﻿@model List<Refoundd.Models.Item>
+@{
+    ViewData["Title"] = "Search Results - ReFound";
+    Layout = null;
+    var searchQuery = ViewBag.SearchQuery as string;
+    var resultCount = ViewBag.ResultCount as int? ?? 0;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="@Url.Action("Dashboard", "Student")" class="logo">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">search</span>
+                    </div>
+                    <h1 class="logo-text">ReFound</h1>
+                </a>
+                <nav class="nav">
+                    <a href="@Url.Action("Dashboard", "Student")" class="nav-link">Dashboard</a>
+                    <a href="#" class="nav-link">Campus Map</a>
+                    <a href="#" class="nav-link">Messages</a>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <form asp-controller="Item" asp-action="Search" method="get" style="display: flex; width: 100%;">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input type="text" name="query" class="search-input"
+                               placeholder="Search items..."
+                               value="@searchQuery" />
+                    </form>
+                </div>
+                <div class="user-menu">
+                    <a href="@Url.Action("Profile", "Student")" class="user-avatar">
+                        <span class="user-initial">@Context.Session.GetString("UserName")?.Substring(0, 1).ToUpper()</span>
+                    </a>
+                    <a href="@Url.Action("Logout", "Account")" class="logout-link">
+                        <span class="material-symbols-outlined">logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Search Header -->
+        <div class="page-header">
+            <div class="page-title-section">
+                <h2 class="page-title">
+                    Search Results for "@searchQuery"
+                </h2>
+                <p class="page-subtitle">
+                    Found @resultCount item@(resultCount != 1 ? "s" : "")
+                </p>
+            </div>
+            <button class="btn-add" onclick="window.location.href='@Url.Action("Dashboard", "Student")'">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </div>
+
+        <!-- Items Grid -->
+        <div class="items-grid">
+            @if (Model.Count == 0)
+            {
+                <div class="empty-state">
+                    <span class="material-symbols-outlined empty-icon">search_off</span>
+                    <h3>No results found</h3>
+                    <p>Try different keywords or check your spelling</p>
+                    <button class="btn-add" onclick="window.location.href='@Url.Action("Dashboard", "Student")'">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span>Back to Dashboard</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="item-card">
+                        <div class="item-image">
+                            <div class="item-image-placeholder">
+                                <span class="material-symbols-outlined">image</span>
+                            </div>
+                            <span class="status-badge @item.Status.ToLower()">@item.Status</span>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">@item.Item_Name</h3>
+                            <p class="item-description">@item.Description</p>
+                            <div class="item-meta">
+                                <div class="meta-item">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                    <span>@item.Location</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>@item.Date.ToString("MMM dd, yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">© 2024 ReFound University Platform. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="@Url.Action("Index", "Home")" class="footer-link">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

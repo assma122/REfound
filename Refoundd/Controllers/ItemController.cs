@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Refoundd.Models;
-using System.Linq;
 
 namespace Refoundd.Controllers
 {
@@ -13,38 +12,63 @@ namespace Refoundd.Controllers
             _context = context;
         }
 
-        // Display all items
-        public IActionResult Index(string search)
-        {
-            var items = from i in _context.Items
-                        select i;
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                items = items.Where(i => i.Item_Name.Contains(search) ||
-                                         i.Description.Contains(search) ||
-                                         i.Location.Contains(search));
-            }
-
-            return View(items.ToList());
-        }
-
-        /* ERROR (Title)
+        // GET: Item/Search
         public IActionResult Search(string query)
         {
-            if (string.IsNullOrEmpty(query))
+            if (string.IsNullOrWhiteSpace(query))
             {
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Please enter a search term";
+                return RedirectToAction("Dashboard", "Student");
             }
 
-            
+            // البحث في اسم العنصر، الوصف، والموقع
             var results = _context.Items
-                .Where(i => i.Title.Contains(query) ||
-                            i.Description.Contains(query))
+                .Where(i =>
+                    i.Item_Name.Contains(query) ||
+                    i.Description.Contains(query) ||
+                    i.Location.Contains(query))
+                .OrderByDescending(i => i.Date)
                 .ToList();
 
+            ViewBag.SearchQuery = query;
+            ViewBag.ResultCount = results.Count;
+
             return View(results);
+        }
+
+        // GET: Item/Filter (للـ Dashboard Filters)
+        public IActionResult Filter(string status)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            IQueryable<Item> query = _context.Items;
+
+            if (!string.IsNullOrEmpty(status) && status != "all")
+            {
+                query = query.Where(i => i.Status == status);
+            }
+
+            var items = query.OrderByDescending(i => i.Date).ToList();
+
+            ViewBag.FilterStatus = status;
+            return View("SearchResults", items);
+        }
+
+        // GET: Item/Details/5
+        public IActionResult Details(int id)
+        {
+            var item = _context.Items.Find(id);
+            if (item == null)
+            {
+                TempData["ErrorMessage"] = "Item not found";
+                return RedirectToAction("Dashboard", "Student");
+            }
+
+            return View(item);
+        }
     }
-        */
-}
 }

@@ -126,8 +126,10 @@ function hideAlertAfterDelay() {
 // === Search Functionality ===
 const searchInput = document.querySelector('.search-input');
 if (searchInput) {
+    // البحث عند الضغط على Enter
     searchInput.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
+            e.preventDefault();
             const query = this.value.trim();
             if (query) {
                 window.location.href = `/Item/Search?query=${encodeURIComponent(query)}`;
