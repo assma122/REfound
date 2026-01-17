@@ -124,7 +124,7 @@ namespace Refoundd.Migrations
                             First_Name = "Ali",
                             Flag = 0,
                             Last_Name = "Ahmed",
-                            Password = "1234",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
                             User_Name = "Ali"
                         },
                         new
@@ -134,7 +134,7 @@ namespace Refoundd.Migrations
                             First_Name = "Sara",
                             Flag = 0,
                             Last_Name = "Khan",
-                            Password = "5678",
+                            Password = "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176",
                             User_Name = "Sara"
                         });
                 });
