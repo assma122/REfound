@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "ReFound - Dashboard";
     Layout = null;
+    var items = ViewBag.Items as List<Refoundd.Models.Item> ?? new List<Refoundd.Models.Item>();
 }
 
 <!DOCTYPE html>
@@ -19,12 +20,12 @@
     <header class="header">
         <div class="header-container">
             <div class="header-left">
-                <div class="logo">
+                <a href="@Url.Action("Index", "Home")" class="logo">
                     <div class="logo-icon">
-                        <span class="material-symbols-outlined">search_insights</span>
+                        <span class="material-symbols-outlined">search</span>
                     </div>
                     <h1 class="logo-text">ReFound</h1>
-                </div>
+                </a>
                 <nav class="nav">
                     <a href="@Url.Action("Dashboard", "Student")" class="nav-link active">Dashboard</a>
                     <a href="#" class="nav-link">Campus Map</a>
@@ -37,8 +38,10 @@
                     <input type="text" class="search-input" placeholder="Search items...">
                 </div>
                 <div class="user-menu">
-                    <span class="user-name">@Model.User_Name</span>
-                    <a href="@Url.Action("Logout", "Account")" class="logout-btn">
+                    <div class="user-avatar">
+                        <span class="user-initial">@Model.User_Name.Substring(0, 1).ToUpper()</span>
+                    </div>
+                    <a href="@Url.Action("Logout", "Account")" class="logout-link" title="Logout">
                         <span class="material-symbols-outlined">logout</span>
                     </a>
                 </div>
@@ -60,12 +63,21 @@
             </button>
         </div>
 
+        <!-- Success Message -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <span class="material-symbols-outlined">check_circle</span>
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
         <!-- Filter Bar -->
         <div class="filter-bar">
             <div class="filter-tabs">
                 <button class="filter-tab active" data-filter="all">All Items</button>
-                <button class="filter-tab" data-filter="lost">Lost Items</button>
-                <button class="filter-tab" data-filter="found">Found Items</button>
+                <button class="filter-tab" data-filter="Lost">Lost Items</button>
+                <button class="filter-tab" data-filter="Found">Found Items</button>
             </div>
             <div class="sort-info">
                 <span class="material-symbols-outlined">filter_list</span>
@@ -73,47 +85,73 @@
             </div>
         </div>
 
-        <!-- Success/Error Messages -->
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success">
-                @TempData["SuccessMessage"]
-            </div>
-        }
-
         <!-- Items Grid -->
         <div class="items-grid" id="itemsGrid">
-            <div class="empty-state">
-                <span class="material-symbols-outlined empty-icon">search_off</span>
-                <h3>No items found</h3>
-                <p>Be the first to report a lost or found item!</p>
-                <button class="btn-add" onclick="window.location.href='@Url.Action("Create", "Item")'">
-                    <span class="material-symbols-outlined">add_circle</span>
-                    <span>Add New Item</span>
-                </button>
-            </div>
+            @if (items.Count == 0)
+            {
+                <div class="empty-state">
+                    <span class="material-symbols-outlined empty-icon">search_off</span>
+                    <h3>No items found</h3>
+                    <p>Be the first to report a lost or found item!</p>
+                    <button class="btn-add" onclick="window.location.href='@Url.Action("Create", "Item")'">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        <span>Add New Item</span>
+                    </button>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in items)
+                {
+                    <div class="item-card" data-status="@item.Status">
+                        <div class="item-image">
+                            <div class="item-image-placeholder">
+                                <span class="material-symbols-outlined">image</span>
+                            </div>
+                            <span class="status-badge @item.Status.ToLower()">@item.Status</span>
+                        </div>
+                        <div class="item-content">
+                            <h3 class="item-title">@item.Item_Name</h3>
+                            <p class="item-description">@item.Description</p>
+                            <div class="item-meta">
+                                <div class="meta-item">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                    <span>@item.Location</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>@item.Date.ToString("MMM dd, yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
 
-        <!-- Pagination -->
-        <div class="pagination" id="pagination" style="display: none;">
-            <button class="page-btn">
-                <span class="material-symbols-outlined">chevron_left</span>
-            </button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <span class="page-dots">...</span>
-            <button class="page-btn">12</button>
-            <button class="page-btn">
-                <span class="material-symbols-outlined">chevron_right</span>
-            </button>
-        </div>
+        <!-- Pagination (سيظهر عند وجود عناصر كثيرة) -->
+        @if (items.Count > 8)
+        {
+            <div class="pagination">
+                <button class="page-btn">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-dots">...</span>
+                <button class="page-btn">@((items.Count / 8) + 1)</button>
+                <button class="page-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        }
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <p class="footer-text">© 2024 ReFound University Platform. All rights reserved.</p>
+            <p class="footer-text">© 2026 ReFound University Platform. All rights reserved.</p>
             <div class="footer-links">
                 <a href="#" class="footer-link">Privacy Policy</a>
                 <a href="#" class="footer-link">Terms of Service</a>

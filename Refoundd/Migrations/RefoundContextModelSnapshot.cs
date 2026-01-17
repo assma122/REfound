@@ -78,6 +78,86 @@ namespace Refoundd.Migrations
                             Location = "Library",
                             Status = "Found",
                             User_Id = 2
+                        },
+                        new
+                        {
+                            Item_Id = 3,
+                            Date = new DateTime(2023, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Stainless steel bottle with a silver cap and a 'Go Bears' sticker.",
+                            Item_Name = "Blue HydroFlask",
+                            Location = "Central Library, Level 2",
+                            Status = "Found",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 4,
+                            Date = new DateTime(2023, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Left in a black sleeve. Has a small scratch on the front logo.",
+                            Item_Name = "Silver MacBook Air",
+                            Location = "Science Building, Room 402",
+                            Status = "Lost",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 5,
+                            Date = new DateTime(2023, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Toyota key fob with several house keys and a gym membership card.",
+                            Item_Name = "Keys with Red Lanyard",
+                            Location = "Student Union, Food Court",
+                            Status = "Found",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 6,
+                            Date = new DateTime(2023, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Bi-fold wallet containing student ID and transit card. Reward offered.",
+                            Item_Name = "Black Leather Wallet",
+                            Location = "Gym, Locker Rooms",
+                            Status = "Lost",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 7,
+                            Date = new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Tortoise shell frames found near the window seating area.",
+                            Item_Name = "Reading Glasses",
+                            Location = "University Cafe",
+                            Status = "Found",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 8,
+                            Date = new DateTime(2023, 10, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Texas Instruments TI-84 Plus, name 'Alex' on the back.",
+                            Item_Name = "Scientific Calculator",
+                            Location = "Lecture Hall A",
+                            Status = "Lost",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 9,
+                            Date = new DateTime(2023, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Dark blue foldable umbrella found in the umbrella stand.",
+                            Item_Name = "Umbrella",
+                            Location = "Main Entrance Lobby",
+                            Status = "Found",
+                            User_Id = 1
+                        },
+                        new
+                        {
+                            Item_Id = 10,
+                            Date = new DateTime(2023, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Card for student #202495. Lost near the shuttle terminal.",
+                            Item_Name = "Student ID Card",
+                            Location = "West Campus Bus Stop",
+                            Status = "Lost",
+                            User_Id = 1
                         });
                 });
 
@@ -136,6 +216,16 @@ namespace Refoundd.Migrations
                             Last_Name = "Khan",
                             Password = "d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176",
                             User_Name = "Sara"
+                        },
+                        new
+                        {
+                            User_Id = 3,
+                            Email = "test@university.edu",
+                            First_Name = "Test",
+                            Flag = 0,
+                            Last_Name = "User",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+                            User_Name = "test_user"
                         });
                 });
 

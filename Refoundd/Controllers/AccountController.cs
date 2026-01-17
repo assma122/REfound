@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Refoundd.Models;  
-using System.Text;
+using Refoundd.Models;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Refoundd.Controllers
 {
@@ -13,24 +13,38 @@ namespace Refoundd.Controllers
         {
             _context = context;
         }
+
+        // GET: Account/Login
+        [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            // إنشاء Model فارغ
+            var model = new LoginViewModel();
+            return View(model);
         }
 
+        // POST: Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            try
+            {
+                // تشفير كلمة المرور
                 string hashedPassword = HashPassword(model.Password);
 
+                // البحث عن المستخدم
                 var user = _context.Users.FirstOrDefault(u =>
                     u.Email == model.Email && u.Password == hashedPassword);
 
                 if (user != null)
                 {
+                    // تسجيل الدخول ناجح
                     HttpContext.Session.SetInt32("UserId", user.User_Id);
                     HttpContext.Session.SetString("UserName", user.User_Name);
                     HttpContext.Session.SetString("UserEmail", user.Email);
@@ -41,16 +55,22 @@ namespace Refoundd.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Invalid email or password");
+                    return View(model);
                 }
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred: " + ex.Message);
+                return View(model);
+            }
         }
 
         // GET: Account/Register
+        [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            return View(model);
         }
 
         // POST: Account/Register
@@ -58,8 +78,14 @@ namespace Refoundd.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            try
+            {
+                // التحقق من عدم تكرار البريد
                 if (_context.Users.Any(u => u.Email == model.Email))
                 {
                     ModelState.AddModelError("Email", "This email is already registered");
@@ -72,6 +98,7 @@ namespace Refoundd.Controllers
                     return View(model);
                 }
 
+                // إنشاء مستخدم جديد
                 var user = new User
                 {
                     User_Name = model.UserName,
@@ -84,11 +111,15 @@ namespace Refoundd.Controllers
 
                 _context.Users.Add(user);
                 _context.SaveChanges();
+
                 TempData["SuccessMessage"] = "Registration successful! Please login.";
                 return RedirectToAction("Login");
             }
-
-            return View(model);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An error occurred: " + ex.Message);
+                return View(model);
+            }
         }
 
         // GET: Account/Logout
@@ -99,6 +130,7 @@ namespace Refoundd.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Helper: تشفير كلمة المرور
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

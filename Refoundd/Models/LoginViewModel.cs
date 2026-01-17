@@ -9,21 +9,16 @@ using System.Reflection.Emit;
 
 namespace Refoundd.Models
 {
-    public class LoginViewModel : Controller
+    public class LoginViewModel
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Required(ErrorMessage = "University email is required")]
         [EmailAddress(ErrorMessage = "Please enter a valid email address")]
         [Display(Name = "University Email")]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }
