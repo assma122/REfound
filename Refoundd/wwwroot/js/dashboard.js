@@ -1,4 +1,5 @@
-﻿// ==========================================
+﻿/*
+// ==========================================
 // ReFound - Dashboard JavaScript
 // ==========================================
 
@@ -135,5 +136,52 @@ if (searchInput) {
                 window.location.href = `/Item/Search?query=${encodeURIComponent(query)}`;
             }
         }
+    });
+}*/
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    initFilterTabs();
+    hideAlertAfterDelay();
+    initSearch();
+});
+
+function initFilterTabs() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const itemCards = document.querySelectorAll('.item-card');
+
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const filter = this.dataset.filter;
+
+            itemCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.dataset.status === filter ? card.style.display = 'block' : card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+function initSearch() {
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) window.location.href = `/Item/Search?query=${encodeURIComponent(query)}`;
+            }
+        });
+    }
+}
+
+function hideAlertAfterDelay() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => { alert.style.opacity = '0'; setTimeout(() => alert.remove(), 300); }, 5000);
     });
 }

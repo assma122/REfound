@@ -28,6 +28,8 @@
                 </a>
                 <nav class="nav">
                     <a href="@Url.Action("Dashboard", "Student")" class="nav-link active">Dashboard</a>
+                    <a href="#" class="nav-link">Campus Map</a>
+                    <a href="#" class="nav-link">Messages</a>
                 </nav>
             </div>
             <div class="header-right">
@@ -37,7 +39,7 @@
                 </div>
                 <div class="user-menu">
                     <div class="user-avatar">
-                        <a href="@Url.Action("Profile", "Student")"<span class="user-initial">@Model.User_Name.Substring(0, 1).ToUpper()</span></a>
+                        <span class="user-initial">@Model.User_Name.Substring(0, 1).ToUpper()</span>
                     </div>
                     <a href="@Url.Action("Logout", "Account")" class="logout-link" title="Logout">
                         <span class="material-symbols-outlined">logout</span>
@@ -59,7 +61,7 @@
                 <span class="material-symbols-outlined">add_circle</span>
                 <span>Add New Item</span>
             </button>
-        </div>
+        </div> 
 
         <!-- Success Message -->
         @if (TempData["SuccessMessage"] != null)
@@ -68,7 +70,7 @@
                 <span class="material-symbols-outlined">check_circle</span>
                 @TempData["SuccessMessage"]
             </div>
-        }
+        } 
 
         <!-- Filter Bar -->
         <div class="filter-bar">
@@ -121,7 +123,15 @@
                                     <span>@item.Date.ToString("MMM dd, yyyy")</span>
                                 </div>
                             </div>
-                        </div>
+                            @if (item.User_Id == Context.Session.GetInt32("UserId"))
+                            {
+                                <div class="item-actions">
+                                    <a href="@Url.Action("Delete", "Item", new { id = item.Item_Id })" class="btn-action btn-delete">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </a>
+                                </div>
+                            }
+                        </div> 
                     </div>
                 }
             }
@@ -149,7 +159,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <p class="footer-text">© 2026 ReFound University Platform. All rights reserved.</p>
+            <p class="footer-text">© 2026 ReFound – The University Lost & Found Hub.</p>
             <div class="footer-links">
                 <a href="#" class="footer-link">Privacy Policy</a>
                 <a href="#" class="footer-link">Terms of Service</a>

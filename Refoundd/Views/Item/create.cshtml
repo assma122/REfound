@@ -1,32 +1,397 @@
 ﻿@model Refoundd.Models.Item
-<h2>Add Lost / Found Items</h2>
-<form asp-action="Create" method="post">
-    <div>
-        <label>Item Name:</label>
-        <input asp-for="Item_Name" />
-        <span asp-validation-for="Item_Name" style="color:red;"></span>
-    </div>
-    <div>
-        <label>Description:</label>
-        <<textarea asp-for="Description"></textarea>
-        <span asp-validation-for="Description" style="color:red;"></span>
-    </div>
-    <div>
-        <label>Location:</label>
-        <<textarea asp-for="Location"></textarea>
-        <span asp-validation-for="Location" style="color:red;"></span>
-    </div>
-    <div>
-        <label>Status:</label>
-        <select asp-for="Status">
-            <option value="Lost">Lost</option>
-            <option value="Found">Found</option>
-        </select>
-        <span asp-validation-for="Status" style="color:red;"></span>
-    </div>
-    <div>
-        <input asp-for="User_Id" type="hidden" value="1" />
-    </div>
-    <button type="submit">Add Item</button>
-</form>
-<a asp-action="Index">Back to List</a>
+@{
+    ViewData["Title"] = "Add New Item - ReFound";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #0a0a0c 0%, #16213e 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid #2d323a;
+            background-color: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 16px 0;
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+            .back-btn:hover {
+                color: white;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        /* Main Content */
+        .main-content {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: #1a1d23;
+            border: 1px solid #2d323a;
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        /* Form */
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+            .form-label .required {
+                color: #ef4444;
+                margin-left: 4px;
+            }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            height: 48px;
+            border-radius: 12px;
+            color: white;
+            background-color: rgba(51, 65, 85, 0.5);
+            border: 1px solid #334155;
+            padding: 0 16px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Lexend', sans-serif;
+        }
+
+        .form-textarea {
+            height: 120px;
+            padding: 12px 16px;
+            resize: vertical;
+        }
+
+            .form-input:focus, .form-select:focus, .form-textarea:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            }
+
+        .validation-error {
+            color: #fca5a5;
+            font-size: 12px;
+        }
+
+        /* Radio Buttons */
+        .radio-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .radio-item {
+            flex: 1;
+            position: relative;
+        }
+
+        .radio-input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            background: rgba(51, 65, 85, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .radio-input:checked + .radio-label {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .radio-label:hover {
+            border-color: #475569;
+        }
+
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+        }
+
+            .btn-primary:hover {
+                background-color: #2563eb;
+                transform: translateY(-2px);
+            }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+            .btn-secondary:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+
+        /* Responsive */
+        /*
+        media (max-width: 768px) {
+            .form-card
+
+        {
+            padding: 24px;
+        }
+
+        .page-title {
+            font-size: 24px;
+        }
+
+        .radio-group {
+            flex-direction: column;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        }*/
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="@Url.Action("Dashboard", "Student")" class="logo">
+                <div class="logo-icon">
+                    <span class="material-symbols-outlined">search</span>
+                </div>
+                <h1 class="logo-text">ReFound</h1>
+            </a>
+            <a href="@Url.Action("Dashboard", "Student")" class="back-btn">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h2 class="page-title">Add New Item</h2>
+            <p class="page-subtitle">Report a lost or found item on campus</p>
+        </div>
+
+        <div class="form-card">
+            <form asp-action="Create" method="post" class="form">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-error"></div>
+
+                <!-- Item Name -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Item Name<span class="required">*</span>
+                    </label>
+                    <input asp-for="Item_Name" class="form-input" placeholder="e.g., Blue Backpack" required />
+                    <span asp-validation-for="Item_Name" class="validation-error"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Description<span class="required">*</span>
+                    </label>
+                    <textarea asp-for="Description" class="form-textarea"
+                              placeholder="Provide detailed description..." required></textarea>
+                    <span asp-validation-for="Description" class="validation-error"></span>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Status<span class="required">*</span>
+                    </label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" asp-for="Status" value="Lost" id="statusLost" class="radio-input" required />
+                            <label for="statusLost" class="radio-label">
+                                <span class="material-symbols-outlined">search_off</span>
+                                Lost Item
+                            </label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" asp-for="Status" value="Found" id="statusFound" class="radio-input" required />
+                            <label for="statusFound" class="radio-label">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Found Item
+                            </label>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Status" class="validation-error"></span>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Location<span class="required">*</span>
+                    </label>
+                    <input asp-for="Location" class="form-input"
+                           placeholder="e.g., Main Library, 2nd Floor" required />
+                    <span asp-validation-for="Location" class="validation-error"></span>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        Add Item
+                    </button>
+                    <a href="@Url.Action("Dashboard", "Student")" class="btn btn-secondary">
+                        <span class="material-symbols-outlined">close</span>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

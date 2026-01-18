@@ -24,7 +24,7 @@ namespace Refoundd.Models
         public string Location { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Please enter date.")]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
 
         // Foreign Key to User
         [ForeignKey("User")]
