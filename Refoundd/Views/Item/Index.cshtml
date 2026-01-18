@@ -8,7 +8,9 @@
     <button type="submit">Search</button>
 </form>
 
-<table class="table table-bordered table-striped">
+<a asp-action"Create" class="btn btn-primary">Add New Item</a>//جديدة
+
+<table class="table table-bordered table-striped" style="margin-top:10px;">
     <thead>
         <tr>
             <th>Item Name</th>
@@ -16,6 +18,7 @@
             <th>Location</th>
             <th>Status</th>
             <th>Date</th>
+            <th>Actions</th> // جديدة
         </tr>
     </thead>
     <tbody>
@@ -27,6 +30,10 @@
                 <td>@i.Location</td>
                 <td>@i.Status</td>
                 <td>@i.Date.ToShortDateString()</td>
+                <td>
+                    // هاي جديدة
+                    <a asp-action="Delete" asp-route-id="@i.Item_Id" onclick="return confirm('Are You Sure?')">Delete</a>
+                </td>// لحد هون
             </tr>
         }
     </tbody>

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Refoundd.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Refoundd.Controllers
 {
@@ -70,5 +73,37 @@ namespace Refoundd.Controllers
 
             return View(item);
         }
+
+        // form to add item
+        public IActionResult Create()
+        {
+            return View();
+        }
+        // post : to save new item
+        [HttpPost]
+        public IActionResult Create(ItemController item)
+        {
+            if (ModelState.IsValid)
+            {
+                // it is optional to set date automatically
+                //item.Date = DateTime.Now;
+               // _context.Items.Add(item);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(item);
+        }
+        // here to Delete Item
+        public IActionResult Delete(int id)
+        {
+            var item = _context.Items.Find(id);
+            if (item != null)
+            {
+                _context.Items.Remove(item);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }
