@@ -18,6 +18,7 @@ namespace Refoundd.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // passwords are hashed using SHA-256 for security
             // Seed Data for Users
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -54,6 +55,7 @@ namespace Refoundd.Models
                     Flag = 0
                 }
             );
+
 
             // Seed Data for Items
             modelBuilder.Entity<Item>().HasData(

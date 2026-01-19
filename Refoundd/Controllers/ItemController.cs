@@ -5,8 +5,10 @@ namespace Refoundd.Controllers
 {
     public class ItemController : Controller
     {
+        // Connect to Database
         private readonly RefoundContext _context;
 
+        // Constructor to initialize the database context || Dependency Injection
         public ItemController(RefoundContext context)
         {
             _context = context;
@@ -16,18 +18,18 @@ namespace Refoundd.Controllers
         public IActionResult Create()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            if (userId == null) 
             {
                 TempData["ErrorMessage"] = "Please login first";
                 return RedirectToAction("Login", "Account");
             }
-
             return View();
         }
 
+
         // POST: Item/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] // action method only responds to POST requests
+        [ValidateAntiForgeryToken] // prevent CSRF attacks
         public IActionResult Create(Item item)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -36,81 +38,24 @@ namespace Refoundd.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-
-            ModelState.Remove("Date");
-            ModelState.Remove("User");
-
-
+            //ModelState.Remove("Date");
+            //ModelState.Remove("User");
             // item.Date = DateTime.Now;
 
             if (ModelState.IsValid)
             {
                 item.User_Id = userId.Value;
-
-                _context.Items.Add(item);
-                _context.SaveChanges();
+                _context.Items.Add(item); // add to DB  (in-memory)
+                _context.SaveChanges(); // persist changes to DB
 
                 TempData["SuccessMessage"] = "Item added successfully!";
                 return RedirectToAction("Dashboard", "Student");
             }
-
             return View(item);
         }
 
-        // GET: Item/Edit/5
-        public IActionResult Edit(int id)
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
 
-            var item = _context.Items.Find(id);
-            if (item == null || item.User_Id != userId)
-            {
-                TempData["ErrorMessage"] = "Item not found or you don't have permission";
-                return RedirectToAction("Dashboard", "Student");
-            }
-
-            return View(item);
-        }
-
-        // POST: Item/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Item item)
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var existingItem = _context.Items.Find(item.Item_Id);
-                if (existingItem == null || existingItem.User_Id != userId)
-                {
-                    TempData["ErrorMessage"] = "Item not found or you don't have permission";
-                    return RedirectToAction("Dashboard", "Student");
-                }
-
-                existingItem.Item_Name = item.Item_Name;
-                existingItem.Description = item.Description;
-                existingItem.Status = item.Status;
-                existingItem.Location = item.Location;
-
-                _context.SaveChanges();
-
-                TempData["SuccessMessage"] = "Item updated successfully!";
-                return RedirectToAction("Dashboard", "Student");
-            }
-
-            return View(item);
-        }
-
-        // GET: Item/Delete/5
+        // GET: Item/Delete/ show confirmation page
         public IActionResult Delete(int id)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -125,11 +70,10 @@ namespace Refoundd.Controllers
                 TempData["ErrorMessage"] = "Item not found or you don't have permission";
                 return RedirectToAction("Dashboard", "Student");
             }
-
             return View(item);
         }
 
-        // POST: Item/DeleteConfirmed/5
+        // POST: Item/DeleteConfirmed/ delete the item
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
@@ -154,6 +98,7 @@ namespace Refoundd.Controllers
             return RedirectToAction("Dashboard", "Student");
         }
 
+
         // GET: Item/Search
         public IActionResult Search(string query)
         {
@@ -168,26 +113,13 @@ namespace Refoundd.Controllers
                     i.Item_Name.Contains(query) ||
                     i.Description.Contains(query) ||
                     i.Location.Contains(query))
-                .OrderByDescending(i => i.Date)
-                .ToList();
+                .OrderByDescending(i => i.Date) // show recent items first
+                .ToList(); // execute the query as a list
 
             ViewBag.SearchQuery = query;
             ViewBag.ResultCount = results.Count;
 
             return View(results);
-        }
-
-        // GET: Item/Details/5
-        public IActionResult Details(int id)
-        {
-            var item = _context.Items.Find(id);
-            if (item == null)
-            {
-                TempData["ErrorMessage"] = "Item not found";
-                return RedirectToAction("Dashboard", "Student");
-            }
-
-            return View(item);
         }
     }
 }

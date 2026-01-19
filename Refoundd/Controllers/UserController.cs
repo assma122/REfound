@@ -6,8 +6,7 @@ namespace Refoundd.Controllers
 {
     public class UserController : Controller
     {
-        private readonly RefoundContext context;
-
+        private readonly RefoundContext context; // DB connection
         public UserController(RefoundContext ctx)
         {
             context = ctx;
@@ -16,7 +15,7 @@ namespace Refoundd.Controllers
         // 1. Display all users
         public IActionResult Index()
         {
-            var allUsers = context.Users.ToList(); // تجيب كل المستخدمين
+            var allUsers = context.Users.ToList(); 
             return View(allUsers);
         }
 
@@ -32,7 +31,7 @@ namespace Refoundd.Controllers
             var results = context.Users
                                  .Where(u => u.User_Name.Contains(searchTerm))
                                  .ToList();
-            return View("Index", results); // نعرض النتائج في نفس الـ Index
+            return View("Index", results);
         }
     }
 }

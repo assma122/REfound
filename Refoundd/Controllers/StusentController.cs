@@ -9,7 +9,6 @@ namespace Refoundd.Controllers
     public class StudentController : Controller
     {
         private readonly RefoundContext _context;
-
         public StudentController(RefoundContext context)
         {
             _context = context;
@@ -33,11 +32,12 @@ namespace Refoundd.Controllers
             }
 
             ViewBag.Items = _context.Items
-                .OrderByDescending(i => i.Date)
+                .OrderByDescending(i => i.Date) // show latest items first
                 .ToList();
 
             return View(user);
         }
+
 
         // GET: Student/Profile
         public IActionResult Profile()
@@ -61,9 +61,9 @@ namespace Refoundd.Controllers
                 LastName = user.Last_Name,
                 Email = user.Email,
             };
-
             return View(model);
         }
+
 
         // POST: Student/UpdateProfile
         [HttpPost]
@@ -87,35 +87,35 @@ namespace Refoundd.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // التحقق من عدم تكرار البريد الإلكتروني
+            // duplicate email check
             if (model.Email != user.Email && _context.Users.Any(u => u.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "This email is already in use");
                 return View("Profile", model);
             }
 
-            // التحقق من عدم تكرار اسم المستخدم
+            // duplicate username check
             if (model.UserName != user.User_Name && _context.Users.Any(u => u.User_Name == model.UserName))
             {
                 ModelState.AddModelError("UserName", "This username is already taken");
                 return View("Profile", model);
             }
 
-            // تحديث البيانات
+            // update user info
             user.User_Name = model.UserName;
             user.First_Name = model.FirstName;
             user.Last_Name = model.LastName;
             user.Email = model.Email;
+            _context.SaveChanges(); // save changes to database
 
-            _context.SaveChanges();
-
-            // تحديث Session
+            // update session data
             HttpContext.Session.SetString("UserName", user.User_Name);
             HttpContext.Session.SetString("UserEmail", user.Email);
 
             TempData["SuccessMessage"] = "Profile updated successfully!";
             return RedirectToAction("Profile");
         }
+
 
         // POST: Student/ChangePassword
         [HttpPost]
@@ -140,7 +140,7 @@ namespace Refoundd.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // التحقق من كلمة المرور الحالية
+            // check current password
             string hashedCurrentPassword = HashPassword(model.CurrentPassword);
             if (user.Password != hashedCurrentPassword)
             {
@@ -148,7 +148,7 @@ namespace Refoundd.Controllers
                 return RedirectToAction("Profile");
             }
 
-            // تحديث كلمة المرور
+            // check new password confirmation
             user.Password = HashPassword(model.NewPassword);
             _context.SaveChanges();
 
@@ -156,24 +156,8 @@ namespace Refoundd.Controllers
             return RedirectToAction("Profile");
         }
 
-        // GET: Student/MyItems
-        public IActionResult MyItems()
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
 
-            var myItems = _context.Items
-                .Where(i => i.User_Id == userId)
-                .OrderByDescending(i => i.Date)
-                .ToList();
-
-            return View(myItems);
-        }
-
-        // Helper: تشفير كلمة المرور
+        // Helper: Hash password using SHA256
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

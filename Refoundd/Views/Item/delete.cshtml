@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+=    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
 
     <style>
@@ -22,7 +22,7 @@
 
         body {
             font-family: 'Lexend', sans-serif;
-            background: linear-gradient(135deg, #0a0a0c 0%, #16213e 100%);
+            background-color: #0a0a0c;
             color: #f1f5f9;
             min-height: 100vh;
             display: flex;
@@ -54,9 +54,9 @@
             color: #ef4444;
         }
 
-            .warning-icon .material-symbols-outlined {
-                font-size: 48px;
-            }
+        .warning-icon .material-symbols-outlined {
+            font-size: 48px;
+        }
 
         .delete-title {
             font-size: 28px;
@@ -88,9 +88,9 @@
             border-bottom: 1px solid #334155;
         }
 
-            .detail-row:last-child {
-                border-bottom: none;
-            }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
 
         .detail-label {
             color: #94a3b8;
@@ -111,17 +111,17 @@
             text-transform: uppercase;
         }
 
-            .status-badge.lost {
-                background-color: rgba(255, 140, 0, 0.2);
-                border: 1px solid #ff8c00;
-                color: #ff8c00;
-            }
+         .status-badge.lost {
+            background-color: rgba(255, 140, 0, 0.2);
+            border: 1px solid #ff8c00;
+            color: #ff8c00;
+         }
 
-            .status-badge.found {
-                background-color: rgba(6, 182, 212, 0.2);
-                border: 1px solid #06b6d4;
-                color: #06b6d4;
-            }
+         .status-badge.found {
+            background-color: rgba(6, 182, 212, 0.2);
+            border: 1px solid #06b6d4;
+            color: #06b6d4;
+         }
 
         .form-actions {
             display: flex;
@@ -150,10 +150,10 @@
             box-shadow: 0 8px 16px rgba(239, 68, 68, 0.2);
         }
 
-            .btn-danger:hover {
-                background-color: #dc2626;
-                transform: translateY(-2px);
-            }
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
 
         .btn-secondary {
             background-color: rgba(255, 255, 255, 0.1);
@@ -161,9 +161,9 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-            .btn-secondary:hover {
-                background-color: rgba(255, 255, 255, 0.15);
-            }
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
 
         /*media (max-width: 768px) {
             .delete-card
@@ -183,6 +183,7 @@
         }*/
     </style>
 </head>
+
 <body>
     <div class="delete-card">
         <div class="warning-icon">
@@ -214,7 +215,7 @@
         </div>
 
         <form asp-action="DeleteConfirmed" method="post" class="form-actions">
-            @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken() 
             <input type="hidden" name="id" value="@Model.Item_Id" />
 
             <a href="@Url.Action("Dashboard", "Student")" class="btn btn-secondary">

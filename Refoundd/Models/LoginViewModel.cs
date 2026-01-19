@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-
 using Microsoft.EntityFrameworkCore;
 using Refoundd.Models;
 using System;

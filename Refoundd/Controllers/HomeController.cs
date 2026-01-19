@@ -7,7 +7,6 @@ namespace Refoundd.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -23,6 +22,7 @@ namespace Refoundd.Controllers
             return View();
         }
 
+        // Error handling action
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

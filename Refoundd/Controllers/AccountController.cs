@@ -14,14 +14,15 @@ namespace Refoundd.Controllers
             _context = context;
         }
 
+
         // GET: Account/Login
         [HttpGet]
         public IActionResult Login()
         {
-            // إنشاء Model فارغ
             var model = new LoginViewModel();
             return View(model);
         }
+
 
         // POST: Account/Login
         [HttpPost]
@@ -35,16 +36,16 @@ namespace Refoundd.Controllers
 
             try
             {
-                // تشفير كلمة المرور
+                // hash password
                 string hashedPassword = HashPassword(model.Password);
 
-                // البحث عن المستخدم
+                // check user credentials
                 var user = _context.Users.FirstOrDefault(u =>
                     u.Email == model.Email && u.Password == hashedPassword);
 
                 if (user != null)
                 {
-                    // تسجيل الدخول ناجح
+                    // Store user info in session
                     HttpContext.Session.SetInt32("UserId", user.User_Id);
                     HttpContext.Session.SetString("UserName", user.User_Name);
                     HttpContext.Session.SetString("UserEmail", user.Email);
@@ -54,16 +55,19 @@ namespace Refoundd.Controllers
                 }
                 else
                 {
+                    // Invalid credentials
                     ModelState.AddModelError("", "Invalid email or password");
                     return View(model);
                 }
             }
+            // General exception handling
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "An error occurred: " + ex.Message);
                 return View(model);
             }
         }
+
 
         // GET: Account/Register
         [HttpGet]
@@ -72,6 +76,7 @@ namespace Refoundd.Controllers
             var model = new RegisterViewModel();
             return View(model);
         }
+
 
         // POST: Account/Register
         [HttpPost]
@@ -85,7 +90,7 @@ namespace Refoundd.Controllers
 
             try
             {
-                // التحقق من عدم تكرار البريد
+                // check for existing email or username
                 if (_context.Users.Any(u => u.Email == model.Email))
                 {
                     ModelState.AddModelError("Email", "This email is already registered");
@@ -98,7 +103,7 @@ namespace Refoundd.Controllers
                     return View(model);
                 }
 
-                // إنشاء مستخدم جديد
+                // create new user
                 var user = new User
                 {
                     User_Name = model.UserName,
@@ -112,6 +117,7 @@ namespace Refoundd.Controllers
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
+                // success msg
                 TempData["SuccessMessage"] = "Registration successful! Please login.";
                 return RedirectToAction("Login");
             }
@@ -122,6 +128,7 @@ namespace Refoundd.Controllers
             }
         }
 
+
         // GET: Account/Logout
         public IActionResult Logout()
         {
@@ -130,7 +137,7 @@ namespace Refoundd.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // Helper: تشفير كلمة المرور
+        // Helper method to hash passwords
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
